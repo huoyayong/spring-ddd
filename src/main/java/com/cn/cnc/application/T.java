@@ -5,6 +5,6 @@ package com.cn.cnc.application;
  */
 public class T {
     public void say() {
-        System.out.println("xxxx");
+        System.out.println("xxxxx");
     }
 }
