@@ -1,0 +1,10 @@
+repos:
+  - repo: local
+    hooks:
+      - id: openspec-commit-gate
+        name: OpenSpec Commit Gate
+        entry: python3 openspec/validators/commit_gate.py
+        language: system
+        pass_filenames: false        # 脚本自己读暂存文件，不需框架传参
+        stages: [pre-commit]         # 在 commit 阶段触发
+        always_run: true             # 即使无匹配文件也运行
