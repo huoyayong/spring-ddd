@@ -10,7 +10,7 @@ public class T {
 
     private String ss;
 
-    public static final String password = "aaaa";
+    public static final String pd = "aaaa";
 
     public String s(String args, HistogramLogReader reader) {
         return "";
