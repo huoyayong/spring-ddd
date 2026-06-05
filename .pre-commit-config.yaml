@@ -1,10 +1,23 @@
+# .pre-commit-config.yaml
+fail_fast: true # 一旦报错立刻停止后续检查，提升速度
+
 repos:
+  # 1. 官方通用轻量门禁
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace   # 移除行尾空格
+      - id: end-of-file-fixer     # 确保文件结尾有空行
+      - id: check-merge-conflict  # 拦截 <<<<<<< HEAD 冲突残留（AI 合并时常犯）
+      - id: detect-private-key    # 拦截常见的私钥硬编码
+
+  # 2. 我们自定义的 Java + AI OpenSpec 门禁
   - repo: local
     hooks:
-      - id: openspec-commit-gate
-        name: OpenSpec Commit Gate
+      - id: java-ai-guard
+        name: OpenSpec Java AI Guard
         entry: python3 openspec/validators/commit_gate.py
-        language: system
-        pass_filenames: false        # 脚本自己读暂存文件，不需框架传参
-        stages: [pre-commit]         # 在 commit 阶段触发
-        always_run: true             # 即使无匹配文件也运行
+        language: python
+        additional_dependencies: [pyyaml]  # 在 hook 隔离 venv 中安装 PyYAML
+        types: [text] # 监听所有文本文件，脚本内自行过滤
+        pass_filenames: false # 不把文件名作为参数传给 entry，脚本内用 git diff 获取
