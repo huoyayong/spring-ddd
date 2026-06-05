@@ -65,6 +65,8 @@ config:
       msg: "[安全漏洞-SQLi] 检测到 MyBatis 注解中使用了 ${...} 拼接 SQL！这会导致严重的 SQL 注入漏洞，必须改为 #{...} 预编译占位符！"
     - pattern: '(?i)(password|secret|token|key)\s*=\s*["''](123456|admin|test|dummy|YOUR_KEY|xxx)["'']'
       msg: "[安全底线] 检测到疑似硬编码的占位符弱密码或密钥，禁止入库。"
+    - pattern: '(?i)(public|private|protected)?\s*(static\s+)?(final\s+)?String\s+(password|passwd|pwd|secret|token|api[_-]?key|access[_-]?key)\s*=\s*["''][^"'']+["'']'
+      msg: "[安全底线] 类字段中检测到硬编码敏感信息（password/secret/token/key），禁止入库，请改为读取配置或环境变量。"
 
     # ---------------------------
     # 7. 异常处理规范
