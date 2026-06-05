@@ -89,7 +89,8 @@ class CommitGate:
 
     def _get_staged_content(self, file: Path) -> str:
         """获取文件暂存区的内容（而非工作区，避免误判未 add 的修改）"""
-        code, out = self._run_cmd(["git", "show", f":{file}"])
+        # Windows 下 str(Path) 是反斜杠,git index 只认正斜杠 → 必须 as_posix()
+        code, out = self._run_cmd(["git", "show", f":{file.as_posix()}"])
         return out if code == 0 else ""
 
     def _is_text_file(self, file: Path) -> bool:
