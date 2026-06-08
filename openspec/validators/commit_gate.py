@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Java + AI 专属 pre-commit 门禁 (软硬分离增强版)
+Java + AI 专属 pre-commit 门禁
 """
 
 import sys

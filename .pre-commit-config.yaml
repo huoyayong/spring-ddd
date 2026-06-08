@@ -6,16 +6,18 @@ repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
-      - id: trailing-whitespace   # 移除行尾空格
+      - id: detect-private-key      # 拦截私钥泄露
       - id: end-of-file-fixer     # 确保文件结尾有空行
       - id: check-merge-conflict  # 拦截 <<<<<<< HEAD 冲突残留（AI 合并时常犯）
-      - id: detect-private-key    # 拦截常见的私钥硬编码
+      - id: check-case-conflict     # 拦截文件名大小写冲突 (防 Win/Mac/Linux 互坑)
+      - id: check-added-large-files # 拦截超大文件
+        args: [ '--maxkb=1024' ]       # 限制单文件最大 1M
 
-  # 2. 我们自定义的 Java + AI OpenSpec 门禁
+  # 2. 自定义的 Java + AI OpenSpec 门禁
   - repo: local
     hooks:
       - id: java-ai-guard
-        name: OpenSpec Java AI Guard
+        name: Local Java AI Guard
         entry: python3 openspec/validators/commit_gate.py
         language: python
         additional_dependencies: [pyyaml]  # 在 hook 隔离 venv 中安装 PyYAML

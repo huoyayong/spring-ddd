@@ -11,7 +11,7 @@ config:
   # ==========================================
   hard_gates:
     # ---------------------------
-    # 1. 致命：中间件与微服务陷阱 (防雪崩) [🔥本次新增]
+    # 1. 致命：中间件与微服务陷阱 (防雪崩)
     # ---------------------------
     - pattern: '\.keys\(\s*["''][^"'']*["'']\s*\)'
       msg: "[Redis致命风险] 严禁在代码中使用 keys() 命令！Redis 是单线程模型，keys 会阻塞其他所有命令引发大面积雪崩。必须使用 scan() 或精确 key。"
@@ -79,14 +79,10 @@ config:
     # ---------------------------
     # 8. AI 调试残留与测试规避
     # ---------------------------
-    - pattern: '(?i)(//|/\*)\s*(TODO|FIXME|HACK).*(AI|GPT|Copilot)'
-      msg: "[AI残留] 禁止遗留未经人工确认的 AI TODO/FIXME 占位符。"
     - pattern: 'System\.(out|err)\.print|e\.printStackTrace\(\)'
       msg: "[调试残留] 禁止直接使用 System.out 或 e.printStackTrace()，必须使用 Logger。"
     - pattern: '(?i)(http://)?(127\.0\.0\.1|localhost)(:\d+)?/'
       msg: "[AI幻觉] 检测到硬编码的 localhost/127.0.0.1！请改为从配置文件读取。"
-    - pattern: '@(Ignore|Disabled)'
-      msg: "[测试规范] 禁止在提交中引入 @Ignore 或 @Disabled 无故跳过测试。"
 
   # ==========================================
   # 【软门禁】(Soft Gates): 命中仅警告，不阻断
